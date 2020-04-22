@@ -20,15 +20,15 @@ def _import_parsers(parserfiles):
 
     _parsers = [
         (name, p) for name, p in inspect.getmembers(_modules)
-        if inspect.ismodule(p) and m.match(name)
+            if inspect.ismodule(p) and m.match(name)
         ]
 
     _classes = dict()
-        for name, p in _parsers:
-            _classes.update({
-                name: p for name, p in inspect.getmembers(p)
-                if inspect.isclass(p) and m.match(name)
-            })
+    for name, p in _parsers:
+        _classes.update({
+            name: p for name, p in inspect.getmembers(p)
+            if inspect.isclass(p) and m.match(name)
+        })
     
     return _classes
 
