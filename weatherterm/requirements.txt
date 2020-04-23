@@ -1,2 +1,0 @@
-beautifulSoup4==4.6.0
-selenium==3.6.0
