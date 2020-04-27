@@ -1,2 +1,3 @@
 .vscode
-/weatherterm/
+/venv/
+__pycache__.py
