@@ -7,4 +7,4 @@ class SetUnitAction(Action):
 
     def __call__(self, parser, namespace, values, option_string=None):
         unit = Unit[values.upper()]
-        setattr(namesapce, self.dest, unit)
+        setattr(namespace, self.dest, unit)
