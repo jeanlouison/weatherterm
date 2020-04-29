@@ -4,6 +4,7 @@ from argparse import ArgumentParser
 from weatherterm.core import parser_loader
 from weatherterm.core import ForecastType
 from weatherterm.core import Unit
+from weatherterm.core import SetUnitAction
 
 def _validate_forecast_args(args):
     if args.forecast_option is None:
@@ -12,50 +13,51 @@ def _validate_forecast_args(args):
         print(f'{argparser.prog}: error: {err_msg}', file=sys.stderr)
         sys.exit();
 
-    parsers = parser_loader.load('./weatherterm/parsers')
+parsers = parser_loader.load('./weatherterm/parsers')
 
-    argparser = ArgumentParser(
-            prog='weatherterm',
-            description='Weather info from weather.com on your terminal')
+argparser = ArgumentParser(
+        prog='weatherterm',
+        description='Weather info from weather.com on your terminal')
 
-    required = argparser.add_argument_group('required arguments')
+required = argparser.add_argument_group('required arguments')
 
-    required.add_argument('-p', '--parser', 
-            choices=parser.keys(),
-            required=True,
-            dest='parser',
-            help=('Specify which parser is going to be used tp scrape weather information.'))
-   
-    unit_values = [name.title() for name, value in Unit.__members__.items()]
+required.add_argument('-p', '--parser', 
+        choices=parsers.keys(),
+        required=True,
+        dest='parser',
+        help=('Specify which parser is going to be used tp scrape weather information.'))
 
-    argparser.add_argument('-u', '--unit',
-            choices=unit_values,
-            required=False,
-            dest='unit',
-            help=('Specify the unit that will be used to display the temperatures'))
-    
-    required.add_argument('-a', '--areacode',
-            help=('The code area to get the weather broadcast from. It can be obtained at https://weather.com'))
+unit_values = [name.title() for name, value in Unit.__members__.items()]
 
-    argparser.add_argument('-v', '--version',
-            action='version',
-            version='%(prog)s 1.0')
+argparser.add_argument('-u', '--unit',
+        choices=unit_values,
+        required=False,
+        action=SetUnitAction,
+        dest='unit',
+        help=('Specify the unit that will be used to display the temperatures'))
 
-    argparser.add_argument('-td', '--today',
-            dest='forecast_option',
-            action='store_const',
-            const=ForecastType.TODAY,
-            help='Show weather forecast for the current day')
-            
+required.add_argument('-a', '--areacode',
+        help=('The code area to get the weather broadcast from. It can be obtained at https://weather.com'))
 
-    args = argparser.parse_args()
+argparser.add_argument('-v', '--version',
+        action='version',
+        version='%(prog)s 1.0')
 
-    _validate_forecast_args(args)
+argparser.add_argument('-td', '--today',
+        dest='forecast_option',
+        action='store_const',
+        const=ForecastType.TODAY,
+        help='Show weather forecast for the current day')
+        
 
-    cls = parsers[args.parser]
+args = argparser.parse_args()
 
-    parser = cls()
-    results = parser.run(args)
+_validate_forecast_args(args)
 
-    for result in results:
-        print(result)
+cls = parsers[args.parser]
+
+parser = cls()
+results = parser.run(args)
+
+for result in results:
+    print(result)
