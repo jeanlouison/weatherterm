@@ -37,7 +37,8 @@ argparser.add_argument('-u', '--unit',
         help=('Specify the unit that will be used to display the temperatures'))
 
 required.add_argument('-a', '--areacode',
-        help=('The code area to get the weather broadcast from. It can be obtained at https://weather.com'))
+        help=('The code area to get the weather broadcast from. It can be obtained at https://weather.com'),
+        dest='area_code')
 
 argparser.add_argument('-v', '--version',
         action='version',

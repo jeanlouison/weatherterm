@@ -5,7 +5,6 @@ from selenium import webdriver
 
 class Request:
     def __init__(self, base_url):
-        print(os.curdir)
         self._phantomjs_path = os.path.join(os.curdir, 'phantomjs')
         self._base_url = base_url
         self._driver = webdriver.PhantomJS(self._phantomjs_path)

@@ -2,6 +2,7 @@ import re
 
 from bs4 import BeautifulSoup
 
+from weatherterm.core import Forecast
 from weatherterm.core import ForecastType
 from weatherterm.core import Request
 from weatherterm.core import Unit
@@ -21,7 +22,7 @@ class WeatherComParser:
 
         self._temp_regex = re.compile('([0-9]+)\D{,2}([0-9]+)')
         self._only_digits_regex = re.compile('[0-9]+')
-        self._unit_converter = UnitConverter(Unit.CELSIUS)
+        self._unit_converter = UnitConverter(Unit.FAHRENHEIT)
 
     def _today_forecast(self, args):
         criteria = {
@@ -31,7 +32,7 @@ class WeatherComParser:
                 }
         content = self._request.fetch_data(args.forecast_option.value, args.area_code)
 
-        bs = BeautifulSoup(content, 'html_parser')
+        bs = BeautifulSoup(content, 'html.parser')
         container = bs.find('section', class_='today_nowcard-container')
 
         weather_conditions = self._parse(container, criteria)
@@ -41,7 +42,7 @@ class WeatherComParser:
 
         weatherinfo = weather_conditions[0]
 
-        temp_regex = re.compile(('H\s+(\d+|\-{,2}).+' 'L\s+(\d+|\-{,2})'))
+        temp_regex = re.compile(('H\s+(\d+|\-{,2}).+''L\s+(\d+|\-{,2})'))
         temp_info = temp_regex.search(weatherinfo['today_nowcard-hilo'])
 
         high_temp, low_temp = temp_info.groups()
@@ -56,7 +57,7 @@ class WeatherComParser:
                 humidity,
                 wind,
                 high_temp=self._unit_converter.convert(high_temp),
-                low_temp=self.unit_converter.convert(low_temp),
+                low_temp=self._unit_converter.convert(low_temp),
                 description=weatherinfo['today_nowcard-phrase'])
 
         return [td_forecast]

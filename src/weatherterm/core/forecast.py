@@ -14,6 +14,8 @@ class Forecast:
         forecast_date=None,
         forecast_type=ForecastType.TODAY ):
 
+        # print(f'forecast.py:17: current_temp={current_temp}')
+
         self._current_temp = current_temp
         self._humidity = humidity
         self._wind = wind
@@ -23,7 +25,7 @@ class Forecast:
         self._forecast_type = forecast_type
 
         if forecast_date is None:
-            self._forecast_type = date.today()
+            self._forecast_date = date.today()
         else:
             self._forecast_date = forecast_date
 
@@ -69,6 +71,7 @@ class Forecast:
 
         return (
             f'>>{self._forecast_date}\n'
+            f'{temperature}\n'
             f'({self._description})\n'
             f'{offset}Wind: ' f'{self._wind} / Humidity: {self._humidity}\n'
         )
