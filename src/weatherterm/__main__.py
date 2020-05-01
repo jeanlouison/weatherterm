@@ -50,6 +50,12 @@ argparser.add_argument('-td', '--today',
         const=ForecastType.TODAY,
         help='Show weather forecast for the current day')
         
+argparser.add_argument('-5d', '--fivedays',
+        dest='forecast_option',
+        action='store_const',
+        const=ForecastType.FIVEDAYS,
+        help='Show weather forecast for the next 5 days')
+        
 
 args = argparser.parse_args()
 
