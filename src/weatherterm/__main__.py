@@ -56,6 +56,11 @@ argparser.add_argument('-5d', '--fivedays',
         const=ForecastType.FIVEDAYS,
         help='Show weather forecast for the next 5 days')
         
+argparser.add_argument('-10d', '--tendays',
+        dest='forecast_option',
+        action='store_const',
+        const=ForecastType.TENDAYS,
+        help='Show weather forecast for the next 10 days')
 
 args = argparser.parse_args()
 

@@ -1,3 +1,4 @@
 .vscode
-/venv/
+/weatherterm/
+phantomjs
 __pycache__.py
