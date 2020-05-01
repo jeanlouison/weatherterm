@@ -2,3 +2,4 @@
 /weatherterm/
 phantomjs
 __pycache__.py
+ghostdriver.log
